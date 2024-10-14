@@ -3,7 +3,7 @@ Invoke-kerberosting Powershell : 0x40810000
 Rebeus : 0x40800000
 Impacket : 0x40810010
 
-Qeury / SPL (Your Kerberoasting SIEM Rules Suck, and I Can Prove It)[https://youtu.be/GWUzRK1OIQc?si=-A8XVQ9TUM5Nw7rE] :
+Qeury / SPL [Your Kerberoasting SIEM Rules Suck, and I Can Prove It](https://youtu.be/GWUzRK1OIQc?si=-A8XVQ9TUM5Nw7rE) :
 type:winevenglog AND event.code: 4769 AND winlog.event_data.TickeEncryptionType:0x17
 AND winlog.event_data.TicketOptions:(0x40810000 OR 0x40800000 OR 0x40810010)
 AND NOT winlog.event_data.TargetUserName:*$
