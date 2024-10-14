@@ -1,9 +1,11 @@
 00- pre-requirment
-the Kerberosting Attack is based on TGS Requested In Real Offensive Scenario Pentesters Create a Local Dump from Memory it has a bunch OF TGT and execute the BruteForce in Offline Mode.
+the Kerberosting Attack is based on TGS Requested In Real Offensive Scenario Pentesters Create a Local Dump from Memory
+it has a bunch OF TGT and execute the BruteForce in Offline Mode.
 win-event-log 4768 TGT was Requested
 win-event-log 4769 TGS was Requested
 
-01- Detection Based on Offensive Tools like : Invoke-kerberosting, Rebeus, Impacket and so on. When you Run this Tools in EventLog windows Neither Sysmon Logs its generate a Field named " Ticket Options " and Following these values:
+01- Detection Based on Offensive Tools like : Invoke-kerberosting, Rebeus, Impacket and so on. When you Run this Tools
+in EventLog windows Neither Sysmon Logs its generate a Field named " Ticket Options " and Following these values:
 Invoke-kerberosting Powershell : 0x40810000
 Rebeus : 0x40800000
 Impacket : 0x40810010
