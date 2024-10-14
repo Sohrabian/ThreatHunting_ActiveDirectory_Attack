@@ -1,9 +1,24 @@
+00- pre-requirment
+the Kerberosting Attack is based on TGS Requested In Real Offensive Scenario Pentesters Create a Local Dump from Memory it has a bunch OF TGT and execute the BruteForce in Offline Mode.
+win-event-log 4768 TGT was Requested
+win-event-log 4769 TGS was Requested
+
 01- Detection Based on Offensive Tools like : Invoke-kerberosting, Rebeus, Impacket and so on. When you Run this Tools in EventLog windows Neither Sysmon Logs its generate a Field named " Ticket Options " and Following these values:
 Invoke-kerberosting Powershell : 0x40810000
 Rebeus : 0x40800000
 Impacket : 0x40810010
 
-Qeury / SPL [Your Kerberoasting SIEM Rules Suck, and I Can Prove It](https://youtu.be/GWUzRK1OIQc?si=-A8XVQ9TUM5Nw7rE). :
+Qeury / SPL [youtube/Your Kerberoasting SIEM Rules Suck, and I Can Prove It] :
 type:winevenglog AND event.code: 4769 AND winlog.event_data.TickeEncryptionType:0x17
 AND winlog.event_data.TicketOptions:(0x40810000 OR 0x40800000 OR 0x40810010)
 AND NOT winlog.event_data.TargetUserName:*$
+
+02- Detection Based a Service Name doesn't include in "ComputerName" OR "ServiceName" and "KRBTGT" for more details Read the below:
+
+SPL [attackermindset.com/https://attackersmindset.com/2021/10/20/detections-that-work-1/]:
+index=windows_events EventCode IN (4769, 4768) Ticket_Encryption_Type IN ("0x1","0x3","0x17","0x18")
+keywords="Audit Success" NOT Service_Name IN ("*$", "krbtgt") host IN ("DomainControllerList")
+| bin _time span=1h
+| stats values(Service_Name) as Unique_Services_Requested dc(Service_Name) as Total_Services_Requested by Account_Name Client_Address _time
+| sort 0 - Total_Services_Requested
+| Where Total_Services_Requested > x
