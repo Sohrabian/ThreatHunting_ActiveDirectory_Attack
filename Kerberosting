@@ -15,7 +15,8 @@ type:winevenglog AND event.code: 4769 AND winlog.event_data.TickeEncryptionType:
 AND winlog.event_data.TicketOptions:(0x40810000 OR 0x40800000 OR 0x40810010)
 AND NOT winlog.event_data.TargetUserName:*$
 
-02- Detection Based a Service Name doesn't include in "ComputerName" OR "ServiceName" and "KRBTGT" for more details Read the below:
+02- Detection Based a Service Name doesn't include in "ComputerName" OR "ServiceName" and "KRBTGT" for more
+details Read the below:
 
 SPL [attackermindset.com/https://attackersmindset.com/2021/10/20/detections-that-work-1/]:
 index=windows_events EventCode IN (4769, 4768) Ticket_Encryption_Type IN ("0x1","0x3","0x17","0x18")
