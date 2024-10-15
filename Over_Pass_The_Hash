@@ -1,0 +1,38 @@
+## Resource your Must To Read To learn Deep Dive Offensive Mindset from Scratch:
+  -- Resource 01- Implementation DC-SYNC Attack in Practical Mode (Scenario Base)- 
+        https://ravinacademy.com/learning-road-map/dcsync-attacks-introduction-and-detection/#toc-heading-2.
+  -- Resource 02- Read HackingArticle.com (Kerberoasting Attack DeepDive/ Silver Ticket/ Golden Ticket Attack / Golden Certificate Attack / AS-REP Roasting and etc)
+
+## PRE-Requirment Knowledge:
+  -- PASS THE HASH (PTH) Technique is for "Local Privilege Escalation" for Creating Persistance.
+  -- OVer PASS THE HASH (OVER PTH) is for "AD Directory Privilege Escalation" to Get The "KRBTGT" Hash via implementation "DC-SYNC" Attack. 
+  -- DC-SYNC is for Abusing Domain Controller Replication and get Access to the KRBTGT.
+  -- Golden Ticket is an Access the Application Service through Impersonate user account that does not exist in Domain. 
+  -- silver Ticket is Compromise the password hash (NTLM hash) of a service account without 
+      any communication with a Domain Controller and hence is stealthier than golden ticket attack (Bypass Logging From KDC and Actind Like GHOST).
+  -- GrantedAccess values represent the permissions a process requests when attempting to access another process.
+      Specifically, 0x143A is associated with advanced access rights that Mimikatz uses for operations such as reading sensitive information from LSASS.
+      This value typically indicates permissions related to credential dumping techniques.
+
+    | GrantedAccess Value | Description |
+    | --- | --- |
+    | 0x1010 | Read access to process memory |
+    | 0x1410 | Includes read and query information |
+    | 0x143A | 	Used for more extensive operations, including credential dumping |
+    | 0x1FFFFF | Full access rights, often seen in various exploits |
+ 
+## For implementation Over_Pass_The_Hash We must having these conditions:
+ Gaining Access to a users has Joined to the "Enterprise Admin", "Domain Admin", "Administrators", "DC Computer"
+## Why these Group Are Important in " OVer_Pass_The_Hash "? Due To these GROUP have Conditions like:
+Replicating Directory Changes (DS-Replication-Get-Changes)
+Replicating Directory Changes All (DS-Replication-Get-Changes-All)
+Replicating Directory Changes In Filtered Set (DS-Replication-Get-Changes-In-Filtered-Set) (this one isn’t always needed but we can add it just in case)
+
+## Detection Over Pass The Hash using SPL/SPLUNK Based on LogonType 9
+index=wineventlog sourcetype="WinEventLog:Security" AND Logon_Type=9 AND EventCode=4624 AND Logon_Process=seclogo 
+| table _time ComputerName Account_Name EventCode Logon_Type Logon_Process
+
+## Detection Over Pass The Hash When Touching "Lsass.exe"
+index=wineventlog sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" AND  EventCode=10 AND  GrantedAccess IN ("0x143A","0x1010","0x1038") 
+AND TargetImage="C:Windowssystem32lsass.exe" 
+| table _time ComputerName EventCode SourceImage TargetImage GrantedAccess
