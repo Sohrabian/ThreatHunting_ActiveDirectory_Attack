@@ -1,0 +1,28 @@
+## Resource :
+  -- 01- https://ravinacademy.com/learning-road-map/dcsync-attacks-introduction-and-detection/#toc-heading-2
+## Pre-Rquirment to implementation DC_Sync Attack - 
+01- Implementation "OVer Pass The Hash". 
+02-01- Get Access to a User Has Joined to These Type of GROUPS:
+  -- Enterprise Admins
+  -- Domain Admins
+  -- Administrators
+  -- DC Computers
+02-02- The "ActiveDirectoryRights" for a User has Joined to The "EnterPrise Admins", "Domain Admins", "Administrators" and "DC Computers"
+        must has "WriteDACL" to Create "DCSync" arribute to another Users this named "ACL Modification" .
+02-03- Implementation "Over Pass The Hash" and Run "DCSync" attack. 
+02-04- The User has Access to the DC-Sync Attribute must have these GUID For Replication:
+    -- 1131f6aa-9c07-11d1-f79f-00c04fc2dcd2
+    -- 1131f6ad-9c07-11d1-f79f-00c04fc2dcd2
+    -- 89e95b76-444d-4c62-991a-0facbeda640c
+03- User has Joined to The "Domain Admin" (for Example) must Access For Replication Attribute:
+  -- Replicating Directory Changes
+  -- Replicating Directory Changes ALL
+  -- Replicating Directory Changes in Filtered Set
+
+## Detection Based on DC-Sync Attack:
+index=wineventlog sourcetype="wineventlog:security" EventCode=4662 AND Properties="Control Access" AND
+Message IN (*"1131f6aa-9c07-11d1-f79f-00c04fc2dcd2"*,*"1131f6ad-9c07-11d1-f79f-00c04fc2dcd2"*,*"89e95b76-444d-4c62-991a-0facbeda640c"*)
+
+## Detection Based on ACL Modification
+index=wineventlog sourcetype="wineventlog:security" AND EventCode=5136 AND Class=domainDNS 
+| table _time ComputerName Account_Name Type
