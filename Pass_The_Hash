@@ -1,5 +1,6 @@
 ## Tactics: Defense Evasion and Lateral Movment
 ## Techniques: Use Alternate Authentication Material 
+## State Based on: Windows Local Privilege Escalation
 
 ## Rsources:
   --01- https://rootdse.org/posts/understanding-sysmon-events/#event-id-18-pipeevent--pipe-connected
