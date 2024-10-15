@@ -1,2 +1,34 @@
 ## Tactics: Defense Evasion and Lateral Movment
 ## Techniques: Use Alternate Authentication Material 
+
+## Rsources:
+  --01- https://rootdse.org/posts/understanding-sysmon-events/#event-id-18-pipeevent--pipe-connected
+  --02- HackingArticle/RdTeam
+  --03- AtomicRedTeam
+
+-------------------------------------------
+# Detection 01 Based on Named PIP Creation:
+index=sysmon EventCode=18 source="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" PipName="\\PSEXESVC"
+| eval Time=strftime(_time, "%Y/%m/%d %H:%M:%S")
+| stats values(Time) as Time values(computer) as computers values(User) as User Valure(ProcessId) as PipName 
+values(Image) as ImageFileName values(EventDescription) as EventDescription by Image, Computer
+
+---------------------------------------------------------
+# Detection 02 Based on NetWork Shared Object Access
+index=wineventlog source="WinEventLog:Security" EventCode=5145 file_name="\\\\*\\IPC$"  (Relative_Target_Name="*stderr*" OR Relative_Target_Name="*stdin*" OR Relative_Target_Name="*stdout*")
+| eval Time=strftime(_time, "%Y/%m/%d %H:%M:%S")
+| stats count values(Time) as Time values(Share_Name) as share_name values(Relative_Target_Name) as Relative_Target_Name values(Accesses) as Accesses 
+	values(ComputerName) as ComputerName dc(computerName) as computers by Source_Address
+
+-----------------------------------------------------------
+# Detection 03 Based on Named PIP Connection:
+index=sysmon EventCode=17 source="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" Image="C:\\Windows\\zVEVmIE.exe"  ### EventCode 17 means Pip Creation for zVEVmIE.exe 
+
+-----------------------------------------------------------
+# Detection 04 Based on New Credential for outbound Connection:
+index=winevent source="windowes/Security" EventCode=4624 Logon_Type=9 Logon_Process=seclogo Authentication_Package=Negotiate
+| stats count by Account_Name Subject_Security_ID
+
+-------------------------------------------------------------------------------------------
+# Detection 05 Based on SeDebugPrivilege Enables for read/write Access to the Lsass Memmory 
+  The Detection must be in the Same TimeStamp and windows Event log 4672
