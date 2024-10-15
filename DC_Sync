@@ -1,5 +1,6 @@
 ## Resource :
   -- 01- https://ravinacademy.com/learning-road-map/dcsync-attacks-introduction-and-detection/#toc-heading-2
+  -- 02- https://www.hackingarticles.in/credential-dumping-dcsync-attack/
 ## Pre-Rquirment to implementation DC_Sync Attack - 
 01- Implementation "OVer Pass The Hash". 
 02-01- Get Access to a User Has Joined to These Type of GROUPS:
