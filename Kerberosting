@@ -1,3 +1,6 @@
+## tactic named : Credential Access
+## technique named : Steal or Forge Kerberos Tickets 
+
 00- pre-requirment
 the Kerberosting Attack is based on TGS Requested In Real Offensive Scenario Pentesters Create a Local Dump from Memory
 it has a bunch OF TGT and execute the BruteForce in Offline Mode.
