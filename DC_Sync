@@ -19,10 +19,12 @@
   -- Replicating Directory Changes ALL
   -- Replicating Directory Changes in Filtered Set
 
+-------------------------------------
 ## Detection Based on DC-Sync Attack:
 index=wineventlog sourcetype="wineventlog:security" EventCode=4662 AND Properties="Control Access" AND
 Message IN (*"1131f6aa-9c07-11d1-f79f-00c04fc2dcd2"*,*"1131f6ad-9c07-11d1-f79f-00c04fc2dcd2"*,*"89e95b76-444d-4c62-991a-0facbeda640c"*)
 
+--------------------------------------
 ## Detection Based on ACL Modification
 index=wineventlog sourcetype="wineventlog:security" AND EventCode=5136 AND Class=domainDNS 
 | table _time ComputerName Account_Name Type
