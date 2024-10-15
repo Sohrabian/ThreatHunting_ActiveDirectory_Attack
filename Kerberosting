@@ -4,6 +4,7 @@ it has a bunch OF TGT and execute the BruteForce in Offline Mode.
 win-event-log 4768 TGT was Requested
 win-event-log 4769 TGS was Requested
 
+----------------------------------------------------------------------------------------------------------------------
 01- Detection Based on Offensive Tools like : Invoke-kerberosting, Rebeus, Impacket and so on. When you Run this Tools
 in EventLog windows Neither Sysmon Logs its generate a Field named " Ticket Options " and Following these values:
 Invoke-kerberosting Powershell : 0x40810000
@@ -15,6 +16,7 @@ type:winevenglog AND event.code: 4769 AND winlog.event_data.TickeEncryptionType:
 AND winlog.event_data.TicketOptions:(0x40810000 OR 0x40800000 OR 0x40810010)
 AND NOT winlog.event_data.TargetUserName:*$
 
+------------------------------------------------------------------------------------------------------------
 02- Detection Based a Service Name doesn't include in "ComputerName" OR "ServiceName" and "KRBTGT" for more
 details Read the below:
 
