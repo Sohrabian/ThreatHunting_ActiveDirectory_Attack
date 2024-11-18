@@ -26,4 +26,8 @@ part01- AD Attack
 21- Exfiltration via HTTP/DNS
 22- Ransomware
 
+part02 - Local Privilege Escalation
 - Windows Local Privilege Escalation - RedTeaming
+
+part03 - Detection for Kerberos RelayUP  
+main Resource - https://www.youtube.com/watch?v=KcTJN6Wy1AM&t=526s
