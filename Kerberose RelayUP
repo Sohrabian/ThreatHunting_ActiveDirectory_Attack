@@ -50,3 +50,34 @@ event.code:4624 AND winlog.event_data.IpAddress: "127.0.0.1" AND winlog.event_da
 
 - Detection Rule 02- based on Computer Account Added / 4741:
 index=windows sourcetype=Security EventCode=4741 AND SAM_ACCOUNT_NAME = "*$"
+
+- Detection Rule 03- based on 'MSADChangeAttributes':
+key context for more Reading :
+01- What is MSADChangeAttributes.
+02- OverView of Active Directory Attributes.
+03- Common Operations with MSADChangeAttributes.
+
+MSADChangeAttribtures refers to a set on operations related to modifying attributes
+of objects within Microsoft Active Directory (AD). These attributes are esential for
+defining the properties and characteristics of various objects, such as users, groups
+and computers.
+Overview of Active Directory Attributes that store information about objects in
+the directory. Each object can have multiple attributes that define its properties
+, such as:
+1- User Attributes: Name, email, phone number, job title.
+2- Group Attributes: Membership details, group type.
+3- Computer Attribute: Operating System version, last logon time.
+
+SPL USECASE:
+index=windows (EventCode=4741 MSADChangedAttributes=*(*HOST/*) AND *(*RestrictedKrbHost/*) New_UAC_Value=0x80) OR (EventCode=4673 Privileges=SeMachineAccountPrivilege) 
+| eventstats values(Process_Name),values(Privileges),values(EventCode) as EventCode by Logon_ID 
+| search EventCode=4741
+| rex field=_raw “(Message=(?<Message>[a-zA-z ].*))” 
+| eval datetime=strftime(_time, “%m-%d-%Y %H:%M:%S.%Q”) 
+| stats count values(datetime),values(Process_Name),values(Privileges),values(EventCode),values(MSADChangedAttributes),values(Message),values(Account_Domain),values(Security_ID),values(SAM_Account_Name),values(DNS_Host_Name) by Logon_ID 
+| search count >=2 
+| rename values(*) as * 
+| eval Effecting_Account=mvindex(Security_ID,1) 
+| eval New_Computer_Account_Name=mvindex(Security_ID,0) 
+| table datetime,Account_Domain,Effecting_Account,Logon_ID,New_Computer_Account_Name,DNS_Host_Name,Message,MSADChangedAttributes,Process_Name,Privileges,EventCode
+
