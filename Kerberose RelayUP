@@ -31,3 +31,18 @@ part02 - Local Privilege Escalation
 
 part03 - Detection for Kerberos RelayUP  
 main Resource - https://www.youtube.com/watch?v=KcTJN6Wy1AM&t=526s
+
+
+- Senario 
+Escalating to the 'nt authority\system'
+
+- Best Detection is based on 'LoopBack IP' and evtx.log:
+EventID: 4624
+Network information:
+  Source Network Address: 127.0.0.1
+New Logon
+  Account Name: Administrator
+Logon Type: 3
+
+- Detection Rule:
+event.code:4624 AND winlog.event_data.IpAddress: "127.0.0.1" AND winlog.event_data.LogonProcssName:Kerberos AND winlog.event_data.LogonType:3
