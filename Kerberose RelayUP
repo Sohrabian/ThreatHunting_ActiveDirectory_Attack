@@ -1,0 +1,29 @@
+- Requiremnets knowledge
+part00- Kerberos Authentication
+resource: https://vbscrub.com/2020/05/13/kerberos-protocol-explained/
+
+part01- AD Attack
+01- User/Domain Reconnaissance
+02- Password Spraying
+03- LLMNR Poisoning 
+04- Kerberosting
+05- AS-REProasting
+06- Pass The Hash
+07- Over Pass The Hash
+08- Pass the Ticket
+09- Golden Tickets
+10- Silver Tickets
+11- Unconstrained delegation
+12- Constrained delegation
+13- DCSync
+14- DCShadow
+15- RDP Brute Force
+16- Beaconing Malware
+17- Port Scanning
+18- Kerberos Brute Force
+19- Cobalt Strick / lateral method
+20- Zerologon
+21- Exfiltration via HTTP/DNS
+22- Ransomware
+
+- Windows Local Privilege Escalation - RedTeaming
