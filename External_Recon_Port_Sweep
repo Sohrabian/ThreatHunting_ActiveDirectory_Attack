@@ -1,0 +1,7 @@
+## Detection
+Splunk USECASE / PortSweep:
+	index=network sourcetype="your_sourcetype"
+	| transaction src_ip dest_ip maxspan=2s
+	| stats dc(dest_port) as num_dest_ports by src_ip, dest_ip
+	| where num_dest_ports > 100
+	| table src_ip, dest_ip, num_dest_ports
