@@ -46,14 +46,14 @@ Network information:
 New Logon
   Account Name: Administrator
 Logon Type: 3
-
-- Detection Rule 01- based on 4624:
+-----------------------------------------------------
+## Detection Rule 01- based on 4624:
 event.code:4624 AND winlog.event_data.IpAddress: "127.0.0.1" AND winlog.event_data.LogonProcssName:Kerberos AND winlog.event_data.LogonType:3
 
-- Detection Rule 02- based on Computer Account Added / 4741:
+## Detection Rule 02- based on Computer Account Added / 4741:
 index=windows sourcetype=Security EventCode=4741 AND SAM_ACCOUNT_NAME = "*$"
 
-- Detection Rule 03- based on 'MSADChangeAttributes'\4673:
+## Detection Rule 03- based on 'MSADChangeAttributes'\4673:
 key context for more Reading :
 01- What is MSADChangeAttributes.
 02- OverView of Active Directory Attributes.
