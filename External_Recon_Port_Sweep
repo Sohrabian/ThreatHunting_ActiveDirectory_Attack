@@ -1,3 +1,73 @@
+## Resource - HackingArticle/understanding guide nmap scan firewall bypass
+
+Scanning / passive :
+to identify live hosts on a network
+to identify open and closed ports 
+to identify operating system information
+to identify services running on a network
+to identify Vulnerabilites 
+to bypass IDS
+Banner grabbing
+Netowrk Diagram
+Proxies
+
+--------------
+Advanced IP Scanner and Bypass FireWall using TCP Flag
+Advanced Ip Scanner
+Anger IP Scanner 
+Zenmap - [find Live host]
+01- techniqu "ARP Ping Scan" way of :
+nmap help | grep -i sn  > ping scan 
+nmap -sn -PR  <destination_IP>   > for Host is alive or no
+02- UDP Scanning based udp ping 
+nmap -sn -PU <ip>
+03- ICMP Ping Scnaning [-PE] means ping Scan ICMP ECHO Request 
+namp -sn -PE <ip>
+04- ICMP TimeStamp Ping
+nmap -Sp -PP <IP>  --disable-arp-ping
+05- ICMP address Mask Ping Scan 
+nmap -sn -PM <IP> --disable-arp-ping
+06- TCP SYN Ping Scan
+nmap -sn -PS <IP> --disable-arp-ping 
+07- TCP ACK Ping Scan / bypass TCP SYN Ping Using TCP ACK Ping
+nmap -sn -PA <IP>  --disable-arp-ping
+08- TCP ACK SCAN with Costume Destination Port
+nmap -sn -PA443 <IP>  --disable-arp-ping
+09- Bypass Firewall using XMAS Scan Based on FIN/URG/PSH
+nmap -sX -v <IP>     	#if Send FIN/URG/PSH and Response include "No Response" equal "open Port"
+						#if Send FIN/URG/PSH and Response include "RST" equal "port Closed"
+10- FIN SCAN 
+nmap -sF <IP>
+nmap -sN <IP>
+
+11- TCP ACK Flag Find Firewall using Scanning via NMAP 
+nmap -sA <ip or range> 	# send "ACK" there is "No Response" there isn't firewall
+						# send "ACK" there is "RST" there is firewall
+						
+12- there is an file in this path named "/usr/share/nmap/" named		
+	nmap-mac-prefixes stored MAC Devices to return Result
+13- Vulnerabilites Scanning using "Script" in /usr/share/nmap/ like:
+	example: nmap --script os-nse <ip or range>
+14- Port Scan using "Ip Protocol ping Scan"
+	"IP Protocol Ping Scan" like ICMP, IGMP, TCP/UDP on TCP like HTTP,DNS and .etc
+	example: nmap -sn -PO <ip or range>
+15- TTL Base ACK Flag Scanning 
+	if Return RST with TTL less than 64 port is open 
+	if return RST with TTL Bigger than 64 port is closed
+	example: nmap -sA -p 80 <ip>
+16- Window-base ACK flag Scanning	
+	Return RST with Window-size non-zero port is Open.
+	Return RST with Window-size zero port is Closed.
+	exmaple: nmap -sW -p 80 <ip>
+### windows-size means that determines how much data can be sent before requiring
+	an acknowledgment from the receiver.
+17- For VOIP using SCTP Scanning Protocol in for-way-handshake
+	example: nmap -sY -p 80 <ip>  #using Protocl SCTP
+	## if Return INIT+ACK CHUNK prot is open		
+	## if Return Destination onruchable port is closed
+18- Port Scanning on IPV6
+	nmap -6 <netbios_name or FQDN_Name>
+----------------------------------------------
 ## Detection
 Splunk USECASE / PortSweep:
 	index=network sourcetype="your_sourcetype"
