@@ -1,0 +1,29 @@
+## Using IDLE/IPID Header Scan for IPSpoofing
+01- Attacker Send SYN to BotNet
+02- BotNet Responce SYN+ACK to Attacker with IPID PACKET = x
+03- Attacker Remmeber IPID Packet=x from BOTNET
+04- Attacker SYN TCP Flag to the Target with BOTNET' IP and his IPID packet=x
+05- Target Machine Send SYN+ACK to the BOTNET
+06- BOTNET Send RST Flag to the Target due to the Initial Connection is not
+    behalf of the BOTNET the initial Connection has established from Attacker
+    in Step 04 and BOTNET IPID Packet = x+1
+07- Attacker Send SYN Flag Again to the BOTNET
+08- BOTNET Send Back SYN+ACK to the Attacker with IPID packet = X+2
+09- The Attacker Findout the Port is Open.
+
+## Example using NMAP:
+namp -sI -Pn <Spoofed_IP_BOTNET> <Target_IP> -p 22
+nmap -sU -p 161 <IP_Range>  #SNMP
+
+## Detection for more Investigation:
+SPLUNK USECASE:
+	index=network sourcetype="your_sourcetype"
+	| stats count by src_ip, dest_ip, dest_port
+	| where count > threshold_vlue
+	| table src_ip, dest_ip, dest_port
+	
+	or 
+	index=network sourcetype="tcp" (flags="SYN" OR flags="SYN/ACK")
+	| stats count by src_ip, dest_ip
+	| where count>100 AND dest_port IN (20, 21, 22, 80, 443)
+	| table src_ip, dest_ip, count
