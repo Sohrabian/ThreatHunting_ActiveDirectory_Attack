@@ -14,7 +14,7 @@
 ## Example using NMAP:
 namp -sI -Pn <Spoofed_IP_BOTNET> <Target_IP> -p 22
 nmap -sU -p 161 <IP_Range>  #SNMP
-
+-------------------------------------------------------------
 ## Detection for more Investigation:
 SPLUNK USECASE:
 	index=network sourcetype="your_sourcetype"
