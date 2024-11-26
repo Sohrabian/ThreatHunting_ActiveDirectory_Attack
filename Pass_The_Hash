@@ -6,6 +6,7 @@
   --01- https://rootdse.org/posts/understanding-sysmon-events/#event-id-18-pipeevent--pipe-connected
   --02- HackingArticle/RdTeam
   --03- AtomicRedTeam
+  --04- Detection: https://blog.netwrix.com/2022/10/04/overpass-the-hash-attacks/
 
 -------------------------------------------
 # Detection 01 Based on Named PIP Creation:
