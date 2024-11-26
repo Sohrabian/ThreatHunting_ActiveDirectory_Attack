@@ -5,6 +5,7 @@
   -- Resource 01- Implementation DC-SYNC Attack in Practical Mode (Scenario Base)- 
         https://ravinacademy.com/learning-road-map/dcsync-attacks-introduction-and-detection/#toc-heading-2.
   -- Resource 02- Read HackingArticle.com (Kerberoasting Attack DeepDive/ Silver Ticket/ Golden Ticket Attack / Golden Certificate Attack / AS-REP Roasting and etc)
+  -- Resource 03- https://blog.netwrix.com/2022/10/04/overpass-the-hash-attacks/ 
 
 ## PRE-Requirment Knowledge:
   -- PASS THE HASH (PTH) Technique is for "Local Privilege Escalation" for Creating Persistance.
