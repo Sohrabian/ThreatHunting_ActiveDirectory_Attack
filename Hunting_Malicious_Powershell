@@ -1,0 +1,4 @@
+- Hunting for Malicious PowerShell Using Script Block Logging :
+Resources: 
+01- Hunting For Malicious Powershell- https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
+02- Invoke-SPLPowerShellAuditLogging.ps1- https://github.com/MHaggis/notes/blob/master/utilities/Invoke-SPLPowerShellAuditLogging.ps1
