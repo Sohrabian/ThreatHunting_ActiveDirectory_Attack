@@ -1,0 +1,43 @@
+- Hunting Phishing Attack, Which represents a browser file downlaod.
+Scenario: https://netwerklabs.com/practical-threat-hunting-using-elastic-siem-hunting-for-stuxbot/
+01- There is a Phishing Email
+02- There is a OneNoteFile (*.one) 
+03- Assign a Batch File in the *.one
+04- this Batch File Injection Powershell Script in memory 
+05- this Powershell Run a RAT File for persis.
+
+Resources:
+01- https://hide01.ir/htb-soc-analyst-path/
+02- SubModule - Introduction to Threat Hunting & Hunting With Elastic
+
+
+
+# Threat Hunting 
+EventID: 11 - FileCreate
+Detection Based on Common Places malware drops during initial infection
+Like: Startup folder, Temporary and downlaod directories.
+
+EventID: 15 - FileCreateStreamHash
+FileCreateStreamHash. There are malware variants that drop their executables or Configuration
+settings via browser downlaods. This event is aimed at capturing that based on the browser attacking
+a Zone.Identifier"mark of the web" stream.
+
+# Detection 
+01- event.code:15 AND file.name:invoice.one*
+02- event.code:11 AND file.name:invoice.one* #Get the TimeStamped, this method is especially effective when browsers aren't involved in the file downlaod process.
+03- event.code:3  AND host.hostname: W01  #to Get the "Source.IP Address" / network connection
+04- source.ip:192.168.28.130 AND dns.question.name:* #Which DNS Address in name Resulotion
+05- more investigate via Zeek_Log using "dns.resolved_ip/zeek.dns.answers/dns.answers.data" to find Hosting site' IP via Zeek*
+06- event.code:1 AND process.command_line:*invoice.one*  #To identify timeStamp, again
+07- event.code:1 AND process.parent.name: "ONENOTE.EXE"  #notic timeStamp
+  and Read these field the result of above:
+    process.command_line
+    process.executable
+    process.parent.command_line
+    process.parent.executable
+08- event.code:1  AND  process.parent.command_line:"invoice.bat"
+    # And find the Process_id based on :
+      processs.name refferer to "powershell.exe"
+      process.args
+09- process.pid:"9944"  and process.name:"powershell.exe"
+10- Search by adding these fields like ( File.path, dns.question.name, destination.ip)
